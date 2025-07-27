@@ -27,10 +27,15 @@ def get_account(domain):
         return
 
     choices = [account["username"] for account in entries[domain]]
+    choices.append("Back")
 
     selected = inquirer.select(
         message=f"Select account under '{domain}':", choices=choices
     ).execute()
+
+    if selected == "Back":
+        print("🔙 Returning to main menu.")
+        return
 
     # Find selected account
     for acc in entries[domain]:

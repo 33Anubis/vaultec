@@ -4,8 +4,9 @@ from utils.vault_init import vault_init
 from utils.add_account import add_account
 from utils.vault_utils import save_vault
 from utils.get_account import get_account
-from utils. update_master import update_master_password
-
+from utils.update_master import update_master_password
+from utils.reset_vault import reset_vault
+from utils.browse_vault import browse_vault
 
 def main():
     print("Welcome to Vaultec 🔐\n")
@@ -42,6 +43,16 @@ def main():
                 print("Usage: --update-mpw")
                 return
             update_master_password()
+        elif cmd == "--reset":
+            if len(sys.argv) != 2:
+                print("Usage: --reset")
+                return
+            reset_vault()
+        elif cmd == "--browse":
+            if len(sys.argv) != 2:
+                print("Usage: --browse")
+                return
+            browse_vault()
         else:
             print(f"Unknown command: {cmd}")
     else:
