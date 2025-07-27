@@ -117,3 +117,6 @@ Still, this taught me how to identify repeated logic and where abstraction start
 8. Browser extension: future plan to autofill passwords directly in the browser.
 
 # Special thanks to Boot.dev for organizing the hackathon and giving me this chance to participate.
+
+# Screenshots
+![Help command](./screenshots/help.png)
