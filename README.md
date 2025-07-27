@@ -124,6 +124,7 @@ Still, this taught me how to identify repeated logic and where abstraction start
 ![Reset command](./screenshots/reset.png)
 ![Initializing Vault](./screenshots/initializing_vault.png)
 ![Adding an account](./screenshots/adding_account.png)
+![Adding and getting auto-generated password](./screenshots/add_retrieve_pw.png)
 ![Get by domain name](./screenshots/get_by_domain.png)
 ![Get by domain name - options](./screenshots/get_by_domain_options.png)
 ![Browse command](./screenshots/browse.png)
