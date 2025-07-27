@@ -15,7 +15,7 @@ def main():
             vault_init()
         elif cmd == "--verify":
             verify_and_unlock_vault()
-        elif cmd == "add":
+        elif cmd == "--add":
             if len(sys.argv) < 4:
                 print("Usage: add <domain> <username>")
                 return
@@ -29,13 +29,12 @@ def main():
 
             add_account(vault, domain, username, master_pw, salt)
             save_vault(vault)
-        elif cmd == "get":
+        elif cmd == "--get":
             if len(sys.argv) < 3:
                 print("Usage: get <domain>")
                 return
 
             domain = sys.argv[2]
-
             get_account(domain)
         else:
             print(f"Unknown command: {cmd}")
@@ -43,6 +42,8 @@ def main():
         print("Usage:")
         print("  --init     Initialize a new vault")
         print("  --verify   Verify master password")
+        print("  --add <domain_name> <account@domain.com>")
+        print("  --get <domain_name> View, Update, Delete accounts")
 
 
 if __name__ == "__main__":

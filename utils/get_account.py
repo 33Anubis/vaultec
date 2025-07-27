@@ -3,6 +3,7 @@ from utils.crypto_utils import derive_fernet_key, hash_password, decrypt
 from InquirerPy import inquirer
 from cryptography.fernet import Fernet
 from getpass import getpass
+from utils.vault_utils import save_vault
 
 
 def get_account(domain):
@@ -34,8 +35,36 @@ def get_account(domain):
     # Find selected account
     for acc in entries[domain]:
         if acc["username"] == selected:
-            decrypted_pw = decrypt(fernet, acc["password"])
-            print(f"\n🔐 Password for {selected}: {decrypted_pw}\n")
+            action = inquirer.select(
+                message=f"What would you like to do with '{selected}'?",
+                choices=["View password", "Update password", "Delete account", "Back"],
+            ).execute()
+
+            if action == "View password":
+                decrypted_pw = decrypt(fernet, acc["password"])
+                print(f"\n🔐 Password for {selected}: {decrypted_pw}\n")
+
+            elif action == "Update password":
+                new_pw = getpass("Enter new password: ")
+                encrypted_pw = fernet.encrypt(new_pw.encode()).decode()
+                acc["password"] = encrypted_pw
+                save_vault(vault)
+                print("✅ Password updated.")
+
+            elif action == "Delete account":
+                confirm = inquirer.confirm(
+                    message=f"Are you sure you want to delete '{selected}'?",
+                    default=False,
+                ).execute()
+                if confirm:
+                    entries[domain].remove(acc)
+                    save_vault(vault)
+                    print("🗑️ Account deleted.")
+                else:
+                    print("Deletion canceled.")
+            else:
+                print("Returning.")
+
             return
 
     print("Account not found. This shouldn't happen.")
