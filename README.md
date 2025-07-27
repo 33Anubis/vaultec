@@ -121,7 +121,7 @@ Still, this taught me how to identify repeated logic and where abstraction start
 # Screenshots
 ![Help command](./screenshots/help.png)
 ![Reset command](./screenshots/reset.png.png)
-![Initializing Vault](./screenshots/initializing_vault.png.png)
-![Adding an account](./screenshots/adding_account.png.png)
-![Get by domain name](./screenshots/get_by_domain.png.png)
-![Get by domain name - options](./screenshots/get_by_domain_options.png.png)
+![Initializing Vault](./screenshots/initializing_vault.png)
+![Adding an account](./screenshots/adding_account.png)
+![Get by domain name](./screenshots/get_by_domain.png)
+![Get by domain name - options](./screenshots/get_by_domain_options.png)
