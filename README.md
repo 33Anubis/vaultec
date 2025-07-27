@@ -120,7 +120,7 @@ Still, this taught me how to identify repeated logic and where abstraction start
 
 # Screenshots
 ![Help command](./screenshots/help.png)
-![Reset command](./screenshots/reset.png.png)
+![Reset command](./screenshots/reset.png)
 ![Initializing Vault](./screenshots/initializing_vault.png)
 ![Adding an account](./screenshots/adding_account.png)
 ![Get by domain name](./screenshots/get_by_domain.png)
