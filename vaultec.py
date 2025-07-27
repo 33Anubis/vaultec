@@ -7,6 +7,7 @@ from utils.get_account import get_account
 from utils.update_master import update_master_password
 from utils.reset_vault import reset_vault
 from utils.browse_vault import browse_vault
+from utils.help import help
 
 def main():
     print("Welcome to Vaultec 🔐\n")
@@ -53,14 +54,14 @@ def main():
                 print("Usage: --browse")
                 return
             browse_vault()
+        elif cmd == "--help" or cmd == "-h":
+            help()
         else:
             print(f"Unknown command: {cmd}")
+            print("Use '--help' or '-h' to view instructions")
     else:
-        print("Usage:")
-        print("  --init     Initialize a new vault")
-        print("  --verify   Verify master password")
-        print("  --add <domain_name> <account@domain.com>")
-        print("  --get <domain_name> View, Update, Delete accounts")
+        help()
+    print("Version 1.0 | Created by Michael Zakhary")
 
 
 if __name__ == "__main__":

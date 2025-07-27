@@ -1,6 +1,8 @@
 from cryptography.fernet import Fernet
 from utils.crypto_utils import derive_fernet_key
 from getpass import getpass
+from InquirerPy import inquirer
+from utils.generate_password import generate_password
 
 
 def add_account(vault, domain, username, master_password, salt):
@@ -22,8 +24,23 @@ def add_account(vault, domain, username, master_password, salt):
                 return
             break
 
-    # Prompt for password
-    pw = getpass("Enter the password to store: ")
+    # Ask if user wants to generate a password
+    use_generator = inquirer.confirm(
+        message="Generate a strong password automatically?", default=True
+    ).execute()
+
+    if use_generator:
+        pw = generate_password()
+
+        # Optional: Show user and let them copy it
+        show_pw = inquirer.confirm(
+            message="Show the generated password?", default=True
+        ).execute()
+
+        if show_pw:
+            print(f"\n📋 Copy this password now: {pw}\n")
+    else:
+        pw = getpass("Enter the password to store: ")
 
     # Derive Fernet key and encrypt
     key = derive_fernet_key(master_password, salt)
