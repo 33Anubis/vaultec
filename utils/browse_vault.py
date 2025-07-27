@@ -3,6 +3,8 @@ from utils.crypto_utils import derive_fernet_key, decrypt, encrypt, hash_passwor
 from InquirerPy import inquirer
 from cryptography.fernet import Fernet
 from getpass import getpass
+from utils.password_input import prompt_password
+from rich import print
 
 
 def browse_vault():
@@ -14,7 +16,7 @@ def browse_vault():
 
     master_pw = getpass("Enter your master password: ")
     if hash_password(master_pw, salt) != stored_hash:
-        print("❌ Access denied.")
+        print("[bold red]❌ Access denied.[/bold red]")
         return
 
     fernet = Fernet(derive_fernet_key(master_pw, salt))
@@ -66,10 +68,18 @@ def browse_vault():
                 print(f"🔐 Password for {selected_account}: {pw}\n")
 
             elif action == "Update password":
-                new_pw = getpass("Enter new password: ")
+                new_pw = prompt_password()
                 account["password"] = encrypt(fernet, new_pw)
                 save_vault(vault)
-                print("✅ Password updated.")
+                show_pw = inquirer.confirm(
+                message="Show the generated password?", default=True
+                ).execute()
+
+                if show_pw:
+                    print(f"\n📋 Copy this password now: {new_pw}\n")
+                
+                print("[bold green]✅ Password updated.[/bold green]")
+                print("\nContinue browsing below:")
 
             elif action == "Delete account":
                 confirm = input(
@@ -78,7 +88,7 @@ def browse_vault():
                 if confirm.lower() == "y":
                     accounts.remove(account)
                     save_vault(vault)
-                    print("✅ Account deleted.")
+                    print("[bold green]✅ Account deleted.[/bold green]")
                     break  # Go back to account list
 
             elif action == "[Back]":

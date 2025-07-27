@@ -4,6 +4,8 @@ from InquirerPy import inquirer
 from cryptography.fernet import Fernet
 from getpass import getpass
 from utils.vault_utils import save_vault
+from utils.password_input import prompt_password
+from rich import print
 
 
 def get_account(domain):
@@ -14,7 +16,7 @@ def get_account(domain):
 
     master_pw = getpass("Enter your master password: ")
     if hash_password(master_pw, salt) != stored_hash:
-        print("❌ Access denied.")
+        print("[bold red]❌ Access denied.[/bold red]")
         return
 
     key = derive_fernet_key(master_pw, salt)
@@ -50,11 +52,18 @@ def get_account(domain):
                 print(f"\n🔐 Password for {selected}: {decrypted_pw}\n")
 
             elif action == "Update password":
-                new_pw = getpass("Enter new password: ")
+                # new_pw = getpass("Enter new password: ")
+                new_pw = prompt_password()
                 encrypted_pw = fernet.encrypt(new_pw.encode()).decode()
                 acc["password"] = encrypted_pw
                 save_vault(vault)
-                print("✅ Password updated.")
+                show_pw = inquirer.confirm(
+                message="Show the generated password?", default=True
+                ).execute()
+
+                if show_pw:
+                    print(f"\n📋 Copy this password now: {new_pw}\n")
+                print("[bold green]✅ Password updated.[/bold green]")
 
             elif action == "Delete account":
                 confirm = inquirer.confirm(

@@ -1,6 +1,7 @@
 from getpass import getpass
 from utils.crypto_utils import hash_password
 from utils.vault_utils import vault_exists, load_vault
+from rich import print
 
 
 def verify_and_unlock_vault():
@@ -16,8 +17,8 @@ def verify_and_unlock_vault():
     hashed_attempt = hash_password(entered_pw, salt)
 
     if hashed_attempt != stored_hash:
-        print("❌ Access denied.")
+        print("[bold red]❌ Access denied.[/bold red]")
         return None, None, None
 
-    print("✅ Access granted.")
+    print("[bold green]✅ Access granted.[/bold green]")
     return vault, entered_pw, salt

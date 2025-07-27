@@ -1,4 +1,5 @@
 import os
+from rich import print
 
 
 def reset_vault():

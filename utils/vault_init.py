@@ -2,9 +2,14 @@ import sys
 from getpass import getpass
 from utils.crypto_utils import generate_salt, hash_password
 from utils.vault_utils import vault_exists, save_vault
+from pyfiglet import Figlet
+from rich import print
 
 
 def vault_init():
+    figlet = Figlet(font="slant")
+    print(f"[cyan]{figlet.renderText('Vaultec')}[/cyan]")
+
     if vault_exists():
         print("Vault already exists.")
         return
@@ -68,4 +73,4 @@ def vault_init():
     # Create JSON vault
     save_vault(vault)
 
-    print("Vault initialized successfully.")
+    print("[bold green]Vault initialized successfully.[/bold green]")

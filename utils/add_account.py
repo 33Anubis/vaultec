@@ -3,6 +3,7 @@ from utils.crypto_utils import derive_fernet_key
 from getpass import getpass
 from InquirerPy import inquirer
 from utils.generate_password import generate_password
+from rich import print
 
 
 def add_account(vault, domain, username, master_password, salt):
@@ -58,4 +59,4 @@ def add_account(vault, domain, username, master_password, salt):
     entries[domain] = domain_entries
     vault["entries"] = entries
 
-    print(f"✅ Password for {username} under {domain} saved.")
+    print(f"[bold green]✅ Password for[/bold green] [cyan]{username}[/cyan] [bold green]under[/bold green] [magenta]{domain}[/magenta] [bold green]saved.[/bold green]")

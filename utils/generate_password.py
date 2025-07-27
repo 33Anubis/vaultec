@@ -1,6 +1,7 @@
 import random
 import string
 from InquirerPy import inquirer
+from rich import print
 
 
 def generate_password():
@@ -30,7 +31,7 @@ def generate_password():
     num_letters = total_length - num_digits - num_special
 
     if int(num_letters) < 0:
-        print("❌ Invalid combination. Try again.")
+        print("[bold red]❌ Invalid combination. Try again.[/bold red]")
         return generate_password()  # Retry again
 
     # Character pools

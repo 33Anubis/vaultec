@@ -1,5 +1,10 @@
-
+from rich import print
+from pyfiglet import Figlet
 def help():
+
+    figlet = Figlet(font="slant")
+    print(f"[cyan]{figlet.renderText('Vaultec')}[/cyan]")
+
     print("Usage:")
     print("  --init             Initialize a new vault")
     print("  --add <domain> <email>")

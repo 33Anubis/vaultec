@@ -2,6 +2,7 @@ from getpass import getpass
 from utils.vault_utils import load_vault, save_vault
 from utils.crypto_utils import derive_fernet_key, hash_password, decrypt, encrypt
 from cryptography.fernet import Fernet
+from rich import print
 import os
 
 
@@ -13,7 +14,7 @@ def update_master_password():
 
     old_pw = getpass("Enter current master password: ")
     if hash_password(old_pw, old_salt) != old_hash:
-        print("❌ Incorrect password.")
+        print("[bold red]❌ Incorrect password.[/bold red]")
         return
 
     # 1: Confirm new password
@@ -43,4 +44,4 @@ def update_master_password():
     vault["master"]["hash"] = hash_password(new_pw1, new_salt).hex()
 
     save_vault(vault)
-    print("✅ Master password updated successfully.")
+    print("[bold green]✅ Master password updated successfully.[/bold green]")
