@@ -119,9 +119,12 @@ Still, this taught me how to identify repeated logic and where abstraction start
 # Special thanks to Boot.dev for organizing the hackathon and giving me this chance to participate.
 
 # Screenshots
+
 ![Help command](./screenshots/help.png)
 ![Reset command](./screenshots/reset.png)
 ![Initializing Vault](./screenshots/initializing_vault.png)
 ![Adding an account](./screenshots/adding_account.png)
 ![Get by domain name](./screenshots/get_by_domain.png)
 ![Get by domain name - options](./screenshots/get_by_domain_options.png)
+![Browse command](./screenshots/browse.png)
+![Update Master Password](./screenshots/update_mpw.png)

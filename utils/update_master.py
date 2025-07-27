@@ -20,12 +20,12 @@ def update_master_password():
     # 1: Confirm new password
     while True:
         new_pw1 = getpass("Enter NEW master password (8+ chars): ")
+        if len(new_pw1) < 8:
+            print("Password too short.")
+            continue
         new_pw2 = getpass("Confirm NEW master password: ")
         if new_pw1 != new_pw2:
             print("Passwords don't match. Try again.")
-            continue
-        if len(new_pw1) < 8:
-            print("Password too short.")
             continue
         break
 
