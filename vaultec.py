@@ -1,84 +1,48 @@
-import json
-import os
 import sys
-from getpass import getpass
-import hashlib
+from utils.verify_vault import verify_and_unlock_vault
+from utils.vault_init import vault_init
+from utils.add_account import add_account
+from utils.vault_utils import save_vault
+from utils.get_account import get_account
 
 
 def main():
-    print("Welcome to Vaultec 🔐.")
-    print("")
+    print("Welcome to Vaultec 🔐\n")
 
-    # Created this to not DRY
-    def exit_logic(key):
-        if str(key).lower() == "q":
-            sys.exit(1)
-    
-    def reenter_logic(key):
-        if str(key).lower() == "p":
-            print("Resetting master password.")
-            return True
-        return False
+    if len(sys.argv) > 1:
+        cmd = sys.argv[1]
+        if cmd == "--init":
+            vault_init()
+        elif cmd == "--verify":
+            verify_and_unlock_vault()
+        elif cmd == "add":
+            if len(sys.argv) < 4:
+                print("Usage: add <domain> <username>")
+                return
 
-    if len(sys.argv) > 1 and sys.argv[1] == "--init":
-        if os.path.exists("vault.json"):
-            print("Vault already exists. Initialization skipped.")
-            sys.exit(1)
+            domain = str(sys.argv[2])
+            username = str(sys.argv[3])
+
+            vault, master_pw, salt = verify_and_unlock_vault()
+            if not vault:
+                return
+
+            add_account(vault, domain, username, master_pw, salt)
+            save_vault(vault)
+        elif cmd == "get":
+            if len(sys.argv) < 3:
+                print("Usage: get <domain>")
+                return
+
+            domain = sys.argv[2]
+
+            get_account(domain)
         else:
-            # initializing the two pw attempts to two diff values so the while loop can be entered
-            # I had a bug here where I set both to None so the while loop was being skipped
-            pw1, pw2 = "", " "
-            while pw1 != pw2:
-                pw1 = getpass("Set master password (8 characters minimum): ")
-
-                if len(pw1) < 8:
-                    print(
-                        "\nPassword must be at least 8 characters.\n" \
-                        "Press 'q' + enter to exit. Please press any other key to try again..."
-                    )
-                    key = input()
-                    exit_logic(key)
-                    continue
-
-                # checking for password match
-                while pw2 != pw1:
-                    pw2 = getpass("Confirm master password: ")
-                    if pw2 != pw1:
-                        print("")
-                        print("Passwords do not match.")
-                        print(
-                        "Options: \n"
-                        "I. Enter 'q' + enter to exit.\n" \
-                        "II. Press 'Enter' to input the confirmation password again.\n" \
-                        "III. Enter 'p' + enter to re-enter your password from the start."
-                    )
-                        key = input()
-                        #if q is selected, quit
-                        exit_logic(key)
-                        #if p is selected, reattempt confirmation password only
-                        if reenter_logic(key):
-                            break
-
-            # generate salt and hash
-            salt = os.urandom(16)
-            hashed_pw = hashlib.pbkdf2_hmac(
-                "sha256", pw1.encode("utf-8"), salt, 100_000
-            )
-
-            # store in JSON + JSON structure
-            vault_data = {
-                "master": {"salt": salt.hex(), "hash": hashed_pw.hex()},
-                "entries": {},
-            }
-
-            # Create JSON vault
-            with open("vault.json", "w") as f:
-                json.dump(vault_data, f, indent=2)
-
-            print("Vault initialized successfully.")
-
+            print(f"Unknown command: {cmd}")
     else:
-        print("Run with '--init' to set up your vault.")
+        print("Usage:")
+        print("  --init     Initialize a new vault")
+        print("  --verify   Verify master password")
 
 
 if __name__ == "__main__":
