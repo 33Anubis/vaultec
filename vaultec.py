@@ -4,6 +4,7 @@ from utils.vault_init import vault_init
 from utils.add_account import add_account
 from utils.vault_utils import save_vault
 from utils.get_account import get_account
+from utils. update_master import update_master_password
 
 
 def main():
@@ -36,6 +37,11 @@ def main():
 
             domain = sys.argv[2]
             get_account(domain)
+        elif cmd == "--update-mpw":
+            if len(sys.argv) != 2:
+                print("Usage: --update-mpw")
+                return
+            update_master_password()
         else:
             print(f"Unknown command: {cmd}")
     else:

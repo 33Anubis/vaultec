@@ -3,6 +3,7 @@ import hashlib
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
+from cryptography.fernet import Fernet
 import base64
 
 
@@ -25,5 +26,11 @@ def derive_fernet_key(password, salt):
     return base64.urlsafe_b64encode(kdf.derive(password.encode()))
 
 
-def decrypt(fernet, ciphertext: str) -> str:
-    return fernet.decrypt(ciphertext.encode()).decode()
+def encrypt(fernet, plaintext):
+    return fernet.encrypt(plaintext.encode()).decode()
+
+
+def decrypt(fernet, ciphertext):
+    if isinstance(ciphertext, str):
+        ciphertext = ciphertext.encode()
+    return fernet.decrypt(ciphertext).decode()
